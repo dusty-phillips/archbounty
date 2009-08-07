@@ -75,5 +75,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
-    'archbounty.accounts',
+    'registration',
 )
+
+ACCOUNT_ACTIVATION_DAYS = "3"
