@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<p class="notice">
+You've been logged out.  You should be redirected to the homepage shortly.  If not, please click <a href="/">here</a>.
+<script type="text/javascript" charset="utf-8">
+  $(function(){
+    window.setTimeout(function(){
+      window.location.pathname = "/";
+    }, 1500);
+  })
+</script>
+</p>
+
+{% endblock %}
+
