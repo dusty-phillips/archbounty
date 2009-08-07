@@ -15,5 +15,6 @@ def pytest_funcarg__client(request):
         return Client()
     def teardown(client):
         teardown_test_environment()
+        from django.db import connection
         connection.creation.destroy_test_db(old_name, 1)
     return request.cached_setup(setup, teardown, "session")
