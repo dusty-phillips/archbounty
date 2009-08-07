@@ -1,4 +1,5 @@
 from django import forms
+from django.core.mail import send_mail
 
 class RegistrationForm(forms.Form):
     username = forms.CharField(max_length=30)
@@ -7,7 +8,7 @@ class RegistrationForm(forms.Form):
     password2 = forms.CharField(max_length=128, min_length=6)
 
     def save(self):
-        pass
+        send_mail('hi', 'hi there', 'dusty@linux.ca', ['dusty@linux.ca'])
 
     def clean(self):
         data = self.cleaned_data
