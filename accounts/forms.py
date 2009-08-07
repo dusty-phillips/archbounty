@@ -1,5 +1,7 @@
 from django import forms
 from django.core.mail import send_mail
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.models import User
 
 class RegistrationForm(forms.Form):
     username = forms.CharField(max_length=30)
@@ -12,6 +14,15 @@ class RegistrationForm(forms.Form):
 
     def clean(self):
         data = self.cleaned_data
-        if data.get('password1') == data.get('password2'):
-            return data
-        raise forms.ValidationError("The passwords do not match.")
+        if data.get('password1') != data.get('password2'):
+            raise forms.ValidationError("The passwords do not match.")
+
+        try:
+            User.objects.get(username=data.get('username'))
+        except ObjectDoesNotExist:
+            pass
+        else:
+            raise forms.ValidationError(
+                    "That username has already been taken.")
+
+        return data

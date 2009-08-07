@@ -53,6 +53,14 @@ def test_registration_invalid(client, invalid_registration):
     assert response.context['form'].errors
     print response.context['form'].errors
 
+def test_duplicate_registration(client):
+    User.objects.create_user('duplicate_name', 'dupe@example.com', 'dupe')
+    test_registration_invalid(client, 
+            {'username': 'duplicate_name',
+                'password1': 'pppppp',
+                'password2': 'pppppp',
+                'email': 'blah@exampl.com'})
+
 def test_registration_makes_email(client):
     response = client.post('/accounts/register/',
             {'username': 'validname',
@@ -61,9 +69,6 @@ def test_registration_makes_email(client):
                 'email': 'blah@exampl.com'})
     assert len(mail.outbox) == 1
 
-def test_duplicate_registration(client):
-    py.test.skip('not implemented')
-    raise NotImplementedError()
 
 
 
