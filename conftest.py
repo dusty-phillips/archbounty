@@ -5,6 +5,7 @@ from django.conf import settings
 from django.test.client import Client
 from django.test.utils import setup_test_environment, teardown_test_environment
 from django.core.management import call_command
+from django.core import mail
 
 def pytest_funcarg__django_client(request):
     old_name = settings.DATABASE_NAME
@@ -25,4 +26,5 @@ def pytest_funcarg__client(request):
         return request.getfuncargvalue('django_client')
     def teardown(client):
         call_command('flush', verbosity=0, interactive=False)
+        mail.outbox = []
     return request.cached_setup(setup, teardown, "function")
