@@ -6,5 +6,6 @@ admin.autodiscover()
 urlpatterns = patterns('',
         (r'^admin/', include(admin.site.urls)),
         (r'^accounts/', include('registration.urls')),
+        (r'^$', 'bounty.views.index'),
 
 )
