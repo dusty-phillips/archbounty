@@ -76,6 +76,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'registration',
+    'bounty',
 )
 
 ACCOUNT_ACTIVATION_DAYS = "3"
