@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{form.instance.name|default:"New Project"}}</h2>
+<p>
+Projects must be clearly described before moderators will permit donations.
+Many projects will be rejected; we want to see what kind of projects are
+submitted before drafting guidelines.
+</p>
+<p>
+Projects must be for tasks that can be accomplished by anyone, they
+cannot include tasks like "Add 'some-package' to [community]", as this would
+require TU privileges. "Create 'some-package' and place it in an online
+repository" is acceptable, as a user can host the repo himself.
+</p>
+<form method="POST">
+    <table>
+        {{form}}
+        <tr><td><input type="submit" value="Create" /></td></tr>
+    </table>
+</form>
+{% endblock %}
