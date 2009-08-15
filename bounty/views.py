@@ -21,3 +21,11 @@ def view_project(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     return render_to_response('view_project.html', RequestContext(
         request, {'project': project}))
+
+def list_projects(request, project_status=None):
+    projects = Project.objects.all().order_by('status', '-creation_date')
+    if project_status:
+        projects = projects.filter(status=project_status)
+
+    return render_to_response("project_list.html", RequestContext(request, 
+        {'projects': projects}))

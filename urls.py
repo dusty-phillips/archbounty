@@ -9,5 +9,8 @@ urlpatterns = patterns('',
         (r'^$', 'bounty.views.index'),
         (r'^new_project', 'bounty.views.new_project'),
         (r'^projects/(?P<project_id>\d+)/$', 'bounty.views.view_project'),
+        (r'^projects/$', 'bounty.views.list_projects'),
+        (r'^projects/(?P<project_status>pending|accepted)/$',
+            'bounty.views.list_projects'),
 
 )
