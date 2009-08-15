@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>{{project.name|default:"New Project"}}</h2>
-{{project.name}}
+<h2>{{project.name}}</h2>
 {{project.description}}
-{{project.status}}
+<br>
+<strong>Status:</strong>{{project.status}}
+
+<h3>Discussion</h3>
 {% endblock %}
