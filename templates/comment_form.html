@@ -1,0 +1,11 @@
+{% load comments %}
+    <form action="{% comment_form_target %}" method="POST" class="comment_form">
+        <input type="hidden" name="next" value="{{request.path}}" />
+        {{comment_form.content_type.errors}}{{comment_form.content_type}}
+        {{comment_form.object_pk.errors}}{{comment_form.object_pk}}
+        {{comment_form.timestamp.errors}}{{comment_form.timestamp}}
+        {{comment_form.security_hash.errors}}{{comment_form.security_hash}}
+        {{comment_form.comment.errors}}{{comment_form.comment}}
+        <span style="display: none">{{comment_form.honeypot}}</span>
+        <br /><input type="submit" value="Submit" />
+    </form>

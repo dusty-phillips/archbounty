@@ -1,0 +1,16 @@
+{% load comments %}
+<div class="comment">
+    {{comment.user}}
+    {{comment.comment}}
+    {% get_comment_list for comment as comments %}
+    {% with 'comment.html' as comment_include %}
+        {% for comment in comments %}
+            {% include comment_include %}
+        {% endfor %}
+        {% if user.is_authenticated %}
+            Reply to This Comment
+            {% get_comment_form for comment as comment_form %}
+            {% include 'comment_form.html' %}
+        {% endif %}
+    {% endwith %}
+</div>
