@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.conf.urls.defaults import *
 
 from django.contrib import admin
@@ -14,3 +15,8 @@ urlpatterns = patterns('',
         (r'^projects/(?P<project_status>pending|accepted)/$',
             'bounty.views.list_projects'),
 )
+
+if settings.DEBUG == True:
+    urlpatterns += patterns('',
+        (r'^static/(.*)$', 'django.views.static.serve', 
+            {'document_root': settings.PROJECT_HOME + '/static'}))
