@@ -13,7 +13,7 @@
 {% include 'comment.html' %}
 {% endfor %}
 {% if user.is_authenticated %}
-    <h4>Submit Comment:</h4>
+    <h4>Submit New Comment:</h4>
     {% get_comment_form for project as comment_form %}
     {% include 'comment_form.html' %}
 

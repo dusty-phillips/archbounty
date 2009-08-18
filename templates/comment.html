@@ -8,7 +8,7 @@
             {% include comment_include %}
         {% endfor %}
         {% if user.is_authenticated %}
-            Reply to This Comment
+        <br /><a href="#" onclick="$(this).next().toggle();">Reply to This Comment</a>
             {% get_comment_form for comment as comment_form %}
             {% include 'comment_form.html' %}
         {% endif %}
