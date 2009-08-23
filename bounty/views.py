@@ -1,12 +1,14 @@
 from django.template import RequestContext
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from bounty.forms import ProjectForm, ProjectStatusForm
 from bounty.models import Project
 
 def index(request):
     return render_to_response('index.html', RequestContext(request, {}))
 
+@login_required
 def new_project(request):
     if request.POST:
         form = ProjectForm(request.POST)
