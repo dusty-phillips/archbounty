@@ -18,6 +18,7 @@
         <a href="/projects/accepted/" title="Projects currently accepting donations and/or contributions">Accepted Projects</a>
         {% if user.is_authenticated %}
         <a href="/accounts/logout/">Log Out</a>
+        (Logged in as {{user.username}})
         {% else %}
         <a href="/accounts/login/">Log In</a>
         {% endif %}
