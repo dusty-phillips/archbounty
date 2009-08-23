@@ -28,6 +28,8 @@ def view_project(request, project_id):
         request, page_dict))
 
 def change_project_status(request, project_id):
+    if not request.user.has_perm('project.can_change_status'):
+        return HttpResponse('not permitted', '403 forbidden')
     project = get_object_or_404(Project, id=project_id)
     form = ProjectStatusForm(instance=project, data=request.POST)
     form.save()
