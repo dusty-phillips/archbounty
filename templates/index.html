@@ -7,6 +7,11 @@
 <a href="/projects/">All Projects</a>
 <a href="/projects/pending/" title="Projects that have not yet been approved for donations">Pending Projects</a>
 <a href="/projects/accepted/" title="Projects currently accepting donations and/or contributions">Accepted Projects</a>
+{% if user.is_authenticated %}
+<a href="/accounts/logout/">Log Out</a>
+{% else %}
+<a href="/accounts/login/">Log In</a>
+{% endif %}
 </p>
 <h2>Introduction</h2>
 <p>
