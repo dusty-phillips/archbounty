@@ -5,7 +5,21 @@
 <h2>{{project.name}}</h2>
 {{project.description}}
 <br>
-<strong>Status:</strong>{{project.status}}
+{% if perms.project.can_change_status %}
+<form id="status_form" method='POST' action="/projects/{{project.id}}/change_status/">
+{% endif %}
+<strong>Status:</strong><span id="project_status">{{project.status}}</span>
+{% if perms.project.can_change_status %}
+    {{status_form.status}} <input type="submit" value="Change" />
+</form>
+<script type="text/javascript">
+    $('#status_form').ajaxForm({
+        success: function(data) {
+            $('#project_status').html(data);
+        }
+    });
+</script>
+{% endif%}
 
 <h3>Discussion</h3>
 {% get_comment_list for project as comments %}

@@ -10,6 +10,10 @@ class PercentageField(models.IntegerField):
 make_choice = lambda x: ([(p,p) for p in x])
 
 class Project(models.Model):
+    class Meta:
+        permissions = (
+                ('can_change_status', "Can Change Project Status"),
+                )
     name = models.CharField(max_length=64)
     description = models.TextField()
     creation_date = models.DateField(auto_now_add=True)

@@ -1,6 +1,7 @@
 from django.template import RequestContext
+from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect, get_object_or_404
-from bounty.forms import ProjectForm
+from bounty.forms import ProjectForm, ProjectStatusForm
 from bounty.models import Project
 
 def index(request):
@@ -18,9 +19,20 @@ def new_project(request):
         request, {'form': form})) 
 
 def view_project(request, project_id):
+    page_dict = {}
     project = get_object_or_404(Project, id=project_id)
+    page_dict['project'] = project
+    if request.user.has_perm('project.can_change_status'):
+        page_dict['status_form'] = ProjectStatusForm(instance=project)
     return render_to_response('view_project.html', RequestContext(
-        request, {'project': project}))
+        request, page_dict))
+
+def change_project_status(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    form = ProjectStatusForm(instance=project, data=request.POST)
+    form.save()
+    return HttpResponse(form.instance.status)
+
 
 def list_projects(request, project_status=None):
     projects = Project.objects.all().order_by('status', '-creation_date')
