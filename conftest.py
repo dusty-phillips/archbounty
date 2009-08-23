@@ -7,6 +7,8 @@ from django.test.utils import setup_test_environment, teardown_test_environment
 from django.core.management import call_command
 from django.core import mail
 
+from django.contrib.auth.models import User
+
 def pytest_funcarg__django_client(request):
     old_name = settings.DATABASE_NAME
     def setup():
@@ -28,3 +30,17 @@ def pytest_funcarg__client(request):
         call_command('flush', verbosity=0, interactive=False)
         mail.outbox = []
     return request.cached_setup(setup, teardown, "function")
+
+# I make test usernames and passwords identical for easy login
+def pytest_funcarg__user(request):
+    '''Create a user with no special permissions.'''
+    user = User.objects.create_user(username="user", password="user", email="user@example.com")
+    return user
+
+def pytest_funcarg__admin(request):
+    '''Create an admin user with all permissions.'''
+    admin = User.objects.create_user(username="admin", password="admin", email="admin@example.com")
+    admin.is_superuser = True
+    admin.save()
+    return admin
+
