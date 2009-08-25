@@ -30,6 +30,8 @@ def view_project(request, project_id):
         request, page_dict))
 
 def change_project_status(request, project_id):
+    if not request.POST:
+        return HttpResponse("bad method", '405 method not allowed')
     if not request.user.has_perm('project.can_change_status'):
         return HttpResponse('not permitted', '403 forbidden')
     project = get_object_or_404(Project, id=project_id)
