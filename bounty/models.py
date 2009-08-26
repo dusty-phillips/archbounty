@@ -31,12 +31,26 @@ class Project(models.Model):
     def get_absolute_url(self):
         return "/projects/%d/" % self.id
 
+    def total_donations(self):
+        return sum([d.amount for d in self.donations.paid()])
+
+    def __unicode__(self):
+        return self.name
+
+class DonationManager(models.Manager):
+    def paid(self):
+        return self.filter(status="paid")
+
+    def unpaid(self):
+        return self.filter(status="unpaid")
+
 class Donation(models.Model):
+    objects = DonationManager()
     user = models.ForeignKey(User)
     project = models.ForeignKey(Project, related_name='donations')
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     status = models.CharField(max_length=6,
-           choices=make_choice(("unpaid", "paid")))
+           choices=make_choice(("unpaid", "paid")), default="unpaid")
     deadline = models.DateTimeField(null=True, blank=True, default=None)
 
 class Contibution(models.Model):

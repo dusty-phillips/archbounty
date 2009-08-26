@@ -20,6 +20,13 @@
     });
 </script>
 {% endif%}
+Project Value: ${{project.total_donations|floatformat:2}}
+{% if donation_form %}
+<form id="donation_form" method='POST' action="/projects/{{project.id}}/donate/">
+    {{donation_form}}
+    <input type="submit" value="Donate" />
+</form>
+{% endif %}
 
 <h3>Discussion</h3>
 {% get_comment_list for project as comments %}
