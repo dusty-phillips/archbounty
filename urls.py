@@ -19,6 +19,8 @@ urlpatterns = patterns('',
         (r'^alertpayinstnoti/$', 'bounty.views.donation_notify'),
         (r'^projects/(?P<project_status>pending|accepted)/$',
             'bounty.views.list_projects'),
+        (r'^projects/(?P<project_id>\d+)/contribute/$',
+            'bounty.views.new_contribution'),
 )
 
 if settings.DEBUG == True:

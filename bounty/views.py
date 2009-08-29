@@ -2,7 +2,8 @@ from django.template import RequestContext
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from bounty.forms import ProjectForm, ProjectStatusForm, DonationForm
+from bounty.forms import (ProjectForm, ProjectStatusForm, DonationForm,
+        ContributionForm)
 from bounty.models import Project, Donation
 from django.conf import settings
 
@@ -42,11 +43,10 @@ def change_project_status(request, project_id):
     form.save()
     return HttpResponse(form.instance.status)
 
+@login_required
 def donate(request, project_id):
     if not request.POST:
         return HttpResponse("bad method", '405 method not allowed')
-    if not request.user.is_authenticated():
-        return HttpResponse('not permitted', '403 forbidden')
     project = get_object_or_404(Project, id=project_id)
     form = DonationForm(request.POST)
     if form.is_valid():
@@ -84,3 +84,18 @@ def list_projects(request, project_status=None):
 
     return render_to_response("project_list.html", RequestContext(request, 
         {'projects': projects}))
+
+@login_required
+def new_contribution(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    if request.POST:
+        form = ContributionForm(request.POST)
+        if form.is_valid():
+            contribution = form.save(commit=False)
+            contribution.user = request.user
+            contribution.project = project
+            contribution.save()
+            return redirect(contribution.get_absolute_url())
+    else:
+        form = ContributionForm()
+    return render_to_response('contribution_form.html', RequestContext(request, {'form': form})) 

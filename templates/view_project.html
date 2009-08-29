@@ -27,6 +27,16 @@ Project Value: ${{project.total_donations|floatformat:2}}
     <input type="submit" value="Donate" />
 </form>
 {% endif %}
+<h3>Contributions</h3>
+{% if project.contributions %}
+    <table>
+        <tr><th>User</th><th>Percentage</th><th>Description</th></tr>
+    {% for contribution in project.contributions.all %}
+    <tr><th>{{contribution.user}}</th><th>{{contribution.percentage}}%</th><th><a href="{{contribution.get_absolute_url}}">{{contribution.description|slice:":60"}}</a></th></tr>
+    {% endfor %}
+    </table>
+    <a href="/projects/{{project.id}}/contribute/">New Contribution</a>
+{% endif %}
 
 <h3>Discussion</h3>
 {% get_comment_list for project as comments %}

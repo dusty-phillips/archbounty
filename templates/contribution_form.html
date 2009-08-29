@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{form.instance.name|default:"New Contribution"}}</h2>
+<p>
+Please enter a detailed description of how you have contributed to {{project}}.
+Refer to source controlled code, patches, mailing lists, or forums in a
+detailed, but concise summary.
+</p>
+<p>Please estimate the percentage of the project you feel this contribution has completed. When the project is completed, if the total contribution percentage is not 100%, moderators will have to go through the contributions to fill in the disparity. Please help us out by giving accurate estimates. Given the nature of the Arch Community, we anticipate that most people will under, rather than over-estimate their contribution.
+</p>
+<p>
+There is no need to record each contribution to a project separately; rather,
+it is easier to keep logically related tasks in a single contribution. I
+suggest that most projects will require only one contribution per contributor.
+In the beginning, most projects should be simple enough to require only a
+single contribution.
+</p>
+<form method="POST">
+    <table>
+        {{form}}
+        <tr><td><input type="submit" value="Create" /></td></tr>
+    </table>
+</form>
+{% endblock %}
