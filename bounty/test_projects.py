@@ -51,3 +51,13 @@ def test_donation(client, user, project):
     assert response.content == 'received'
     d = Donation.objects.all()[0]
     assert d.status == 'paid'
+
+def test_no_login_cant_donate(client, project):
+    project.status = "accepted"
+    project.save()
+    response = client.get('/projects/%d/' % project.id)
+    print response.content
+    assert 'Donate' not in response.content
+    response = client.post('/projects/%d/donate/' % project.id,
+            {'amount': 15})
+    assert len(Donation.objects.all()) == 0
