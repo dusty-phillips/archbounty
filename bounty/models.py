@@ -53,7 +53,7 @@ class Donation(models.Model):
            choices=make_choice(("unpaid", "paid")), default="unpaid")
     deadline = models.DateTimeField(null=True, blank=True, default=None)
 
-class Contibution(models.Model):
+class Contribution(models.Model):
     user = models.ForeignKey(User)
     project = models.ForeignKey(Project, related_name='contributions')
     percentage = PercentageField()
