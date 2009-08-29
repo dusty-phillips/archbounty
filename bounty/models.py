@@ -58,3 +58,6 @@ class Contibution(models.Model):
     project = models.ForeignKey(Project, related_name='contributions')
     percentage = PercentageField()
     description = models.TextField()
+
+    def get_absolute_url(self):
+        return "%scontributions/%d/" % (project.get_absolute_url(), self.id)
