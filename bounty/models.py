@@ -60,4 +60,4 @@ class Contribution(models.Model):
     description = models.TextField()
 
     def get_absolute_url(self):
-        return "%scontributions/%d/" % (project.get_absolute_url(), self.id)
+        return "%scontributions/%d/" % (self.project.get_absolute_url(), self.id)
