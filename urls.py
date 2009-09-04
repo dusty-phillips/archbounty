@@ -21,6 +21,8 @@ urlpatterns = patterns('',
             'bounty.views.list_projects'),
         (r'^projects/(?P<project_id>\d+)/contribute/$',
             'bounty.views.new_contribution'),
+        (r'^projects/(?P<project_id>\d+)/contributions/(?P<contribution_id>\d+)/$',
+            'bounty.views.contribution'),
 )
 
 if settings.DEBUG == True:

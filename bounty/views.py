@@ -99,3 +99,10 @@ def new_contribution(request, project_id):
     else:
         form = ContributionForm()
     return render_to_response('contribution_form.html', RequestContext(request, {'form': form})) 
+
+@login_required
+def contribution(request, project_id, contribution_id):
+    project = get_object_or_404(Project, id=project_id)
+    contribution = get_object_or_404(project.contributions, id=contribution_id)
+    return render_to_response('view_contribution.html', RequestContext(request,
+        {'contribution': contribution, 'project': project}))

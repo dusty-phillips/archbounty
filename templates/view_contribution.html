@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>
+Contribution to '<a href="{{project.get_absolute_url}}">{{project.name}}</a>'
+</p>
+<strong>User</strong>: {{contribution.user}}<br />
+<strong>Estimated percentage</strong>: {{contribution.percentage}}%<br />
+<strong>Description</strong>: <br />{{contribution.description}}
+{% endblock %}
+
+
