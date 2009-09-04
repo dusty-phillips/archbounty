@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load comments %}
 
 {% block content %}
 <p>
@@ -7,6 +8,17 @@ Contribution to '<a href="{{project.get_absolute_url}}">{{project.name}}</a>'
 <strong>User</strong>: {{contribution.user}}<br />
 <strong>Estimated percentage</strong>: {{contribution.percentage}}%<br />
 <strong>Description</strong>: <br />{{contribution.description}}
+<h3>Discussion</h3>
+{% get_comment_list for contribution as comments %}
+{% for comment in comments %}
+{% include 'comment.html' %}
+{% endfor %}
+{% if user.is_authenticated %}
+    <h4>Submit New Comment:</h4>
+    {% get_comment_form for contribution as comment_form %}
+    {% include 'comment_form.html' %}
+
+{% endif %}
 {% endblock %}
 
 
