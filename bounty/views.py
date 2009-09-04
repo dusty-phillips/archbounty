@@ -105,4 +105,4 @@ def contribution(request, project_id, contribution_id):
     project = get_object_or_404(Project, id=project_id)
     contribution = get_object_or_404(project.contributions, id=contribution_id)
     return render_to_response('view_contribution.html', RequestContext(request,
-        {'contribution': contribution, 'project': project}))
+        {'contribution': contribution, 'project': project, 'can_edit': contribution.user == request.user or request.user.has_perm('contribution.can_change_contribution')}))
