@@ -34,11 +34,16 @@ Project Value: ${{project.total_donations|floatformat:2}}
     {% for contribution in project.contributions.all %}
     <tr><th>{{contribution.user}}</th><th>{{contribution.percentage}}%</th><th><a href="{{contribution.get_absolute_url}}">{{contribution.description|slice:":60"}}</a></th></tr>
     {% endfor %}
+    <tr><th>Estimated Complete:</th>
+        <th class="project_{{project.contribution_status}}">{{project.contribution_percentage}}%</th></tr>
     </table>
     <a href="/projects/{{project.id}}/contribute/">New Contribution</a>
 {% endif %}
 
 <h3>Discussion</h3>
+<p>
+Use this discussion area to discuss the viability of the project and discussion of contribution. Please take coordination of efforts and sharing of code to a better medium.
+</p>
 {% get_comment_list for project as comments %}
 {% for comment in comments %}
 {% include 'comment.html' %}

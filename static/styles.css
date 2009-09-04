@@ -19,3 +19,12 @@ body {
     display: none;
 }
 
+.project_complete {
+    color: #393;
+}
+.project_incomplete {
+    color: #883;
+}
+.project_over {
+    color: #b33;
+}

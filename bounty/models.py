@@ -34,6 +34,17 @@ class Project(models.Model):
     def total_donations(self):
         return sum([d.amount for d in self.donations.paid()])
 
+    def contribution_percentage(self):
+        return sum([c.percentage for c in self.contributions.all()])
+
+    def contribution_status(self):
+        if self.contribution_percentage < 100:
+            return "incomplete"
+        elif self.contribution_percentage > 100:
+            return "over"
+        else:
+            return "complete"
+
     def __unicode__(self):
         return self.name
 
