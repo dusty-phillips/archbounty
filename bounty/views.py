@@ -35,9 +35,9 @@ def view_project(request, project_id):
 
 def change_project_status(request, project_id):
     if not request.POST:
-        return HttpResponse("bad method", '405 method not allowed')
+        return HttpResponse("bad method", status='405 method not allowed')
     if not request.user.has_perm('project.can_change_status'):
-        return HttpResponse('not permitted', '403 forbidden')
+        return HttpResponse('not permitted', status='403 forbidden')
     project = get_object_or_404(Project, id=project_id)
     form = ProjectStatusForm(instance=project, data=request.POST)
     form.save()
@@ -46,7 +46,7 @@ def change_project_status(request, project_id):
 @login_required
 def donate(request, project_id):
     if not request.POST:
-        return HttpResponse("bad method", '405 method not allowed')
+        return HttpResponse("bad method", status='405 method not allowed')
     project = get_object_or_404(Project, id=project_id)
     form = DonationForm(request.POST)
     if form.is_valid():
@@ -64,10 +64,10 @@ def donate(request, project_id):
 
 def donation_notify(request): 
     if not request.POST:
-        return HttpResponse("bad method", '405 method not allowed')
+        return HttpResponse("bad method", status='405 method not allowed')
 
     if request.POST['ap_securitycode'] != settings.ALERTPAY_SECURITY_CODE:
-        return HttpResponse("not permitted", '403 not permitted')
+        return HttpResponse("not permitted", status='403 not permitted')
 
     if request.POST['ap_status'] == 'success':
         donation = get_object_or_404(Donation, id=request.POST['ap_itemcode'],
@@ -100,9 +100,26 @@ def new_contribution(request, project_id):
         form = ContributionForm()
     return render_to_response('contribution_form.html', RequestContext(request, {'form': form})) 
 
-@login_required
 def contribution(request, project_id, contribution_id):
     project = get_object_or_404(Project, id=project_id)
     contribution = get_object_or_404(project.contributions, id=contribution_id)
     return render_to_response('view_contribution.html', RequestContext(request,
         {'contribution': contribution, 'project': project, 'can_edit': contribution.user == request.user or request.user.has_perm('contribution.can_change_contribution')}))
+
+def edit_contribution(request, project_id, contribution_id):
+    project = get_object_or_404(Project, id=project_id)
+    contribution = get_object_or_404(project.contributions, id=contribution_id)
+    print contribution.user, request.user
+    print request.user.has_perm('contribution.can_change_contribution')
+    if contribution.user != request.user and not request.user.has_perm('contribution.can_change_contribution'):
+        return HttpResponse('not permitted', status='403 forbidden')
+
+    if request.POST:
+        form = ContributionForm(instance=contribution, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(form.instance.get_absolute_url())
+    else:
+        form = ContributionForm(instance=contribution)
+    return render_to_response('contribution_form.html', RequestContext(request, {'form': form}))
+
