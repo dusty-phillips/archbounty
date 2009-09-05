@@ -14,6 +14,7 @@ class Project(models.Model):
         permissions = (
                 ('can_change_status', "Can Change Project Status"),
                 )
+    creator = models.ForeignKey(User)
     name = models.CharField(max_length=64)
     description = models.TextField()
     creation_date = models.DateField(auto_now_add=True)
