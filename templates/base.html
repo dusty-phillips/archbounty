@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
-        <title>{% block title %}Arch Linux{% endblock %}</title>
+        <title>{% block title %}Arch Bounty{% endblock %}</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="/static/arch.css" />
         <link rel="stylesheet" href="/static/styles.css" />
@@ -34,8 +34,8 @@
                         <li><a href="/projects/pending/" title="Projects that have not yet been approved for donations">Pending</a></li>
                         <li><a href="/projects/accepted/" title="Projects currently accepting donations and/or contributions">Accepted</a></li>
                         {% if user.is_authenticated %}
-                        <li><a href="/accounts/logout/">Log Out</a></li>
-                        (Logged in as {{user.username}})
+                        <li><a href="/accounts/logout/">Log Out
+                            {{user.username}}</a></li>
                         {% else %}
                         <li><a href="/accounts/login/">Log In</a></li>
                         <li><a href="/">Home</a></li>
