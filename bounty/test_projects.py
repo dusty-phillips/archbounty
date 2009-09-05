@@ -1,8 +1,9 @@
 from bounty.models import Project, Donation
 
 def pytest_funcarg__project(request):
+    user = request.getfuncargvalue('user')
     return Project.objects.create(name="Test Project",
-            description="This project is a test")
+            description="This project is a test", creator=user)
 
 def test_project(client, user, project):
     client.login(username=user.username, password=user.password)
