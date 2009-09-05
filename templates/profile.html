@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{user}}'s Dashboard</h2>
+<h3>Projects I have created</h3>
+{% with created as projects %}
+{% include 'profile_project_table.html' %}
+{% endwith %}
+<h3>Projects I have contributed to</h3>
+{% with contributed as projects %}
+{% include 'profile_project_table.html' %}
+{% endwith %}
+<h3>Projects I have donated to</h3>
+{% with donated as projects %}
+{% include 'profile_project_table.html' %}
+{% endwith %}
+
+{% endblock %}

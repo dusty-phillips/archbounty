@@ -1,0 +1,17 @@
+
+{% if projects %}
+    <table style="min-width:30em">
+        <tr>
+            <th>Project</th><th>Status</th><th>Completed</th>
+        </tr>
+        {% for project in projects %}
+        <tr>
+            <td><a href="{{project.get_absolute_url}}">{{project}}</a></td>
+            <td>{{project.status}}</td>
+            <td class="project_{{project.contribution_status}}">{{project.contribution_percentage}}%</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    No Projects
+    {% endif %}

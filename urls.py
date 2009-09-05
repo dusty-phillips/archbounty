@@ -6,6 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
         (r'^admin/', include(admin.site.urls)),
+        (r'^accounts/profile', 'bounty.views.profile'),
         (r'^accounts/', include('registration.urls')),
         (r'^comments/', include('django.contrib.comments.urls')),
         (r'^$', 'bounty.views.index'),

@@ -11,11 +11,24 @@ def index(request):
     return render_to_response('index.html', RequestContext(request, {}))
 
 @login_required
+def profile(request):
+    created_projects = request.user.project_set.all()
+    contributed_projects = Project.objects.filter(contributions__user=request.user)
+    donated_projects = Project.objects.filter(donations__user=request.user)
+    return render_to_response('profile.html', RequestContext(request,
+        {'created': created_projects,
+            'contributed': contributed_projects,
+            'donated': donated_projects
+            }))
+
+@login_required
 def new_project(request):
     if request.POST:
         form = ProjectForm(request.POST)
         if form.is_valid():
-            form.save()
+            project = form.save(commit=False)
+            project.creator = request.user
+            project.save()
             return redirect(form.instance.get_absolute_url())
     else:
         form = ProjectForm()
