@@ -2,15 +2,19 @@
 {% load comments %}
 
 {% block content %}
-<p>
+<div class="box">
+<h2>
 Contribution to '<a href="{{project.get_absolute_url}}">{{project.name}}</a>'
-</p>
+</h2>
 <strong>User</strong>: {{contribution.user}}<br />
-<strong>Estimated percentage</strong>: {{contribution.percentage}}%<br />
-<strong>Description</strong>: <br />{{contribution.description}}
+<strong>Estimated percentage</strong>: {{contribution.percentage}}%
+<p>{{contribution.description}}</p>
+</div>
+<br />
 {% if can_edit %}
 <a href="{{contribution.get_absolute_url}}edit/">Edit Contribution</a>
 {% endif %}
+<div class="greybox">
 <h3>Discussion</h3>
 {% get_comment_list for contribution as comments %}
 {% for comment in comments %}
@@ -22,6 +26,7 @@ Contribution to '<a href="{{project.get_absolute_url}}">{{project.name}}</a>'
     {% include 'comment_form.html' %}
 
 {% endif %}
+</div>
 {% endblock %}
 
 

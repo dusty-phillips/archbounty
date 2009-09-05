@@ -3,7 +3,7 @@
 {% block content %}
     {% for project in projects %}
         {% ifchanged project.status %}
-            <h2>{{project.status}}</h2>
+            <h2>{{project.status|title}} Projects</h2>
         {% endifchanged %}
         <a href="{{project.get_absolute_url}}">{{project.name}}</a><br />
     {% empty %}

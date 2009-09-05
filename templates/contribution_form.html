@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="box">
 <h2>{% if form.instance.project %}Edit {% else %} New {% endif %}Contribution</h2>
 <p>
 Please enter a detailed description of how you have contributed to {{project}}.
@@ -16,6 +17,9 @@ suggest that most projects will require only one contribution per contributor.
 In the beginning, most projects should be simple enough to require only a
 single contribution.
 </p>
+</div>
+<br />
+<div class="greybox">
 {% if form.instance.project %}
 <strong>Project</strong>: {{form.instance.project}}
 <strong>User</strong>: {{form.instance.user}}
@@ -26,4 +30,5 @@ single contribution.
         <tr><td><input type="submit" value="Save" /></td></tr>
     </table>
 </form>
+</div>
 {% endblock %}

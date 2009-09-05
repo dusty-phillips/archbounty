@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="box">
 <h2>{{form.instance.name|default:"New Project"}}</h2>
 <p>
 Projects must be clearly described before moderators will permit donations.
@@ -13,10 +14,13 @@ cannot include tasks like "Add 'some-package' to [community]", as this would
 require TU privileges. "Create 'some-package' and place it in an online
 repository" is acceptable, as users can host the repo themselves.
 </p>
+</div>
+<div class="greybox">
 <form method="POST">
     <table>
         {{form}}
         <tr><td><input type="submit" value="Create" /></td></tr>
     </table>
 </form>
+</div>
 {% endblock %}
