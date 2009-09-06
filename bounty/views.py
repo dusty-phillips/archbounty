@@ -94,7 +94,7 @@ def donation_notify(request):
     if request.POST['ap_securitycode'] != settings.ALERTPAY_SECURITY_CODE:
         return HttpResponse("not permitted", status='403 not permitted')
 
-    if request.POST['ap_status'] == 'success':
+    if request.POST['ap_status'].lower() == 'success':
         donation = get_object_or_404(Donation, id=request.POST['ap_itemcode'],
                 amount=request.POST['ap_amount'])
         donation.status = 'paid'
