@@ -5,7 +5,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+    ('Dusty Phillips', 'dusty@archlinx.ca'),
 )
 
 MANAGERS = ADMINS
@@ -46,7 +46,7 @@ MEDIA_URL = ''
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
+ADMIN_MEDIA_PREFIX = '/admin-media/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '1$9gtw!%c55q=eaja4_+_zm%lh08d8ss&b!-wqzi@0@xz@#y7t'
@@ -92,11 +92,5 @@ INSTALLED_APPS = (
 
 ACCOUNT_ACTIVATION_DAYS = 3
 ALERTPAY_SECURITY_CODE = 'abcdef'
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = False
-DEFAULT_FROM_EMAIL = 'dusty@archlinux.ca'
 
 from localsettings import *
