@@ -1,14 +1,23 @@
+import datetime
 from django.template import RequestContext
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from bounty.forms import (ProjectForm, ProjectStatusForm, DonationForm,
         ContributionForm)
-from bounty.models import Project, Donation
+from bounty.models import Project, Donation, Contribution
 from django.conf import settings
 
 def index(request):
-    return render_to_response('index.html', RequestContext(request, {}))
+    created = Project.objects.exclude(status="completed").order_by('-created')[:4]
+    completed = Project.objects.filter(status="completed").order_by('-completed_date')[:4]
+    donations = Donation.objects.paid().order_by('-created')[:4]
+    contributions = Contribution.objects.all().order_by('-created')[:4]
+    return render_to_response('index.html', RequestContext(request, {
+        'created': created,
+        'completed': completed,
+        'donations': donations,
+        'contributions': contributions}))
 
 @login_required
 def profile(request):
@@ -53,8 +62,11 @@ def change_project_status(request, project_id):
         return HttpResponse('not permitted', status='403 forbidden')
     project = get_object_or_404(Project, id=project_id)
     form = ProjectStatusForm(instance=project, data=request.POST)
-    form.save()
-    return HttpResponse(form.instance.status)
+    instance = form.save(commit=False)
+    if instance.status == 'completed':
+        instance.completed_date = datetime.date.today()
+    instance.save()
+    return HttpResponse(instance.status)
 
 @login_required
 def donate(request, project_id):
@@ -91,7 +103,7 @@ def donation_notify(request):
     return HttpResponse("received")
 
 def list_projects(request, project_status=None):
-    projects = Project.objects.all().order_by('status', '-creation_date')
+    projects = Project.objects.all().order_by('status', '-created')
     if project_status:
         projects = projects.filter(status=project_status)
 

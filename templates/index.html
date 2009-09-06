@@ -1,7 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div id="about" class="box">
+<div class="right greybox">
+    <h3>New Projects</h3>
+    {% for project in created %}
+    <a href="{{project.get_absolute_url}}">{{project.name}}</a><br />
+    {% endfor %}
+    <h3>Recently Completed</h3>
+    {% for project in completed %}
+    <a href="{{project.get_absolute_url}}">{{project.name}}</a><br />
+    {% endfor %}
+    <h3>Recent Donations</h3>
+    {% for donation in donations %}
+    ${{donation.amount|floatformat:2}} to <a href="{{donation.project.get_absolute_url}}">{{donation.project}}</a>
+    {% endfor %}
+    <h3>Recent Contributions</h3>
+    {% for contribution in contributions %}
+    {{contribution.user}} to <a href="{{contribution.project.get_absolute_url}}">{{contribution.project}}</a>
+    {% endfor %}
+</div>
+<div id="about" class="left box">
     <h2>Introduction</h2>
     <p>
     Welcome to Arch Bounty. The simple goal of this site is to allow <a

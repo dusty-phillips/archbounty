@@ -17,7 +17,8 @@ class Project(models.Model):
     creator = models.ForeignKey(User)
     name = models.CharField(max_length=64)
     description = models.TextField()
-    creation_date = models.DateField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
     completed_date = models.DateField(null=True, blank=True)
     # pending --> user submitted, moderator has not viewed, or is discussing
     # accepted --> moderator deems project acceptable
@@ -31,6 +32,10 @@ class Project(models.Model):
 
     def get_absolute_url(self):
         return "/projects/%d/" % self.id
+
+    @property
+    def creation_date(self):
+        return self.created.date()
 
     def total_donations(self):
         return sum([d.amount for d in self.donations.paid()])
@@ -59,6 +64,8 @@ class DonationManager(models.Manager):
 class Donation(models.Model):
     objects = DonationManager()
     user = models.ForeignKey(User)
+    modified = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
     project = models.ForeignKey(Project, related_name='donations')
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     status = models.CharField(max_length=6,
@@ -67,6 +74,8 @@ class Donation(models.Model):
 
 class Contribution(models.Model):
     user = models.ForeignKey(User)
+    modified = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
     project = models.ForeignKey(Project, related_name='contributions')
     percentage = PercentageField()
     description = models.TextField()
