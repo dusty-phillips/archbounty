@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -37,8 +38,11 @@ class Project(models.Model):
     def creation_date(self):
         return self.created.date()
 
-    def total_donations(self):
-        return sum([d.amount for d in self.donations.paid()])
+    def current_value(self):
+        return sum([d.amount for d in self.donations.current()])
+
+    def expired_value(self):
+        return sum([d.amount for d in self.donations.expired()])
 
     def contribution_percentage(self):
         return sum([c.percentage for c in self.contributions.all()])
@@ -60,6 +64,12 @@ class DonationManager(models.Manager):
 
     def unpaid(self):
         return self.filter(status="unpaid")
+
+    def current(self):
+        return self.filter(deadline__isnull=True) | self.filter(deadline__gt=datetime.date.today())
+
+    def expired(self):
+        return self.filter(deadline__lte=datetime.date.today())
 
 class Donation(models.Model):
     objects = DonationManager()

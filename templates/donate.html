@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-Click the button below to donate ${{amount|floatformat:2}} to '{{project}}' using AlertPay's secure facilities:
+Click the button below to donate ${{amount|floatformat:2}} to '{{project}}' using AlertPay's secure facilities (<strong>NOTE: All donations are currently in test mode. No transaction will be applied to your credit card</strong>):
 <form method="post" action="https://www.alertpay.com/PayProcess.aspx" >  <input type="hidden" name="ap_purchasetype" value="item"/>  <input type="hidden" name="ap_merchant" value="bounty@archlinux.ca"/>  <input type="hidden" name="ap_itemname" value="Archbounty Donation"/>  <input type="hidden" name="ap_currency" value="USD"/>  <input type="hidden" name="ap_itemcode" value="{{item_code}}"/>
     <input type="hidden" name="ap_returnurl" value="http://bounty.archlinux.ca/"/>  <input type="hidden" name="ap_quantity" value="1"/>  <input type="hidden" name="ap_description" value="To Project {{project}}"/>  <input type="hidden" name="ap_amount" value="{{amount}}"/>  <input type="hidden" name="ap_cancelurl" value="http://bounty.archlinux.ca/"/>  <input type="image" name="ap_image" src="https://www.alertpay.com//PayNow/3C17C7EAF3144D56B2D309E31D29D9C2c.gif"/> </form>  
 {% endblock%}

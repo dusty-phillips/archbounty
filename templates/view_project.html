@@ -22,7 +22,10 @@ Created by {{project.creator}}<br />
     });
 </script>
 {% endif%}
-Project Value: ${{project.total_donations|floatformat:2}}
+Project Value: ${{project.current_value|floatformat:2}}
+{% if project.expired_value %}
+Expired Value: ${{project.expired_value|floatformat:2}}
+{% endif %}
 {% if donation_form %}
 <form id="donation_form" method='POST' action="/projects/{{project.id}}/donate/">
     {{donation_form}}

@@ -2,11 +2,9 @@ from bounty.forms import ContributionForm
 from bounty.models import Contribution, Project
 
 def pytest_funcarg__contribution(request):
-    user = request.getfuncargvalue('user')
-    project = Project.objects.create(name="Test Project",
-            description="This project is a test", creator=user)
+    project = request.getfuncargvalue('project')
     return Contribution.objects.create(
-            user=user, project=project, percentage=5)
+            user=project.creator, project=project, percentage=5)
 
 def test_form():
     form = ContributionForm()

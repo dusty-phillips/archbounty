@@ -8,6 +8,7 @@ from django.core.management import call_command
 from django.core import mail
 
 from django.contrib.auth.models import User
+from bounty.models import Project
 
 def pytest_funcarg__django_client(request):
     old_name = settings.DATABASE_NAME
@@ -43,4 +44,9 @@ def pytest_funcarg__admin(request):
     admin.is_superuser = True
     admin.save()
     return admin
+
+def pytest_funcarg__project(request):
+    user = request.getfuncargvalue('user')
+    return Project.objects.create(name="Test Project",
+            description="This project is a test", creator=user)
 

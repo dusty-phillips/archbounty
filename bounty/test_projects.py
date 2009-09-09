@@ -1,10 +1,5 @@
 from bounty.models import Project, Donation
 
-def pytest_funcarg__project(request):
-    user = request.getfuncargvalue('user')
-    return Project.objects.create(name="Test Project",
-            description="This project is a test", creator=user)
-
 def test_project(client, user, project):
     client.login(username=user.username, password=user.password)
     assert project.status == 'pending'
@@ -31,34 +26,3 @@ def test_unprivleged_no_change_status(client, user, project):
     revised_project = Project.objects.get(id=project.id)
     assert revised_project.status == 'pending'
 
-def test_donation(client, user, project):
-    assert client.login(username=user.username, password=user.username)
-    assert len(Donation.objects.all()) == 0
-    response = client.post('/projects/%d/donate/' % project.id,
-            {'amount': '15'})
-    assert len(Donation.objects.all()) == 1
-    d = Donation.objects.all()[0]
-    assert d.amount == 15
-    assert d.status == 'unpaid'
-    assert d.user == user
-
-    client.logout()
-    response = client.post('/alertpayinstnoti/', {
-        'ap_securitycode': 'abcdef',
-        'ap_status': 'success',
-        'ap_itemcode': d.id,
-        'ap_amount': 15
-        })
-    assert response.content == 'received'
-    d = Donation.objects.all()[0]
-    assert d.status == 'paid'
-
-def test_no_login_cant_donate(client, project):
-    project.status = "accepted"
-    project.save()
-    response = client.get('/projects/%d/' % project.id)
-    print response.content
-    assert 'Donate' not in response.content
-    response = client.post('/projects/%d/donate/' % project.id,
-            {'amount': 15})
-    assert len(Donation.objects.all()) == 0
