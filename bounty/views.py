@@ -50,6 +50,8 @@ def view_project(request, project_id):
     page_dict['project'] = project
     if request.user.has_perm('project.can_change_status'):
         page_dict['status_form'] = ProjectStatusForm(instance=project)
+    if request.user.has_perm('project.can_change_project') or request.user == project.creator:
+        page_dict['can_change_project'] = True
     if request.user.is_authenticated() and project.status=="accepted":
         page_dict['donation_form'] = DonationForm()
     return render_to_response('view_project.html', RequestContext(
