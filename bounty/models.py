@@ -82,6 +82,9 @@ class Donation(models.Model):
            choices=make_choice(("unpaid", "paid")), default="unpaid")
     deadline = models.DateTimeField(null=True, blank=True, default=None)
 
+    def __unicode__(self):
+        return "$%s to %s" % (self.amount, self.project)
+
 class Contribution(models.Model):
     user = models.ForeignKey(User)
     modified = models.DateTimeField(auto_now=True)
@@ -89,6 +92,9 @@ class Contribution(models.Model):
     project = models.ForeignKey(Project, related_name='contributions')
     percentage = PercentageField()
     description = models.TextField()
+
+    def __unicode__(self):
+        return "%s to %s" %(self.user, self.project)
 
     def get_absolute_url(self):
         return "%scontributions/%d/" % (self.project.get_absolute_url(), self.id)
