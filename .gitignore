@@ -2,3 +2,4 @@
 *.swp
 *.swo
 archbounty.db
+localsettings.py
