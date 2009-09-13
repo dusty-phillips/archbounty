@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load comments %}
+{% load markup %}
 
 {% block content %}
 <div class="box">
@@ -8,7 +9,7 @@
 <a href="/projects/{{project.id}}/edit/">Edit Project</a><br />
 {% endif %}
 Created by {{project.creator}}<br />
-{{project.description}}
+{{project.description|markdown:"safe"}}
 <br>
 {% if perms.project.can_change_status %}
 <form id="status_form" method='POST' action="/projects/{{project.id}}/change_status/">

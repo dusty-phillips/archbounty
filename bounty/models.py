@@ -17,7 +17,7 @@ class Project(models.Model):
                 )
     creator = models.ForeignKey(User)
     name = models.CharField(max_length=64)
-    description = models.TextField()
+    description = models.TextField(help_text='<a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> syntax is supported.')
     modified = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     completed_date = models.DateField(null=True, blank=True)
@@ -91,7 +91,7 @@ class Contribution(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     project = models.ForeignKey(Project, related_name='contributions')
     percentage = PercentageField()
-    description = models.TextField()
+    description = models.TextField(help_text='<a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> syntax is supported.')
 
     def __unicode__(self):
         return "%s to %s" %(self.user, self.project)

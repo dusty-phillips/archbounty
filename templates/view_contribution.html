@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load comments %}
+{% load markup %}
 
 {% block content %}
 <div class="box">
@@ -8,7 +9,7 @@ Contribution to '<a href="{{project.get_absolute_url}}">{{project.name}}</a>'
 </h2>
 <strong>User</strong>: {{contribution.user}}<br />
 <strong>Estimated percentage</strong>: {{contribution.percentage}}%
-<p>{{contribution.description}}</p>
+<p>{{contribution.description|markdown:"safe"}}</p>
 </div>
 <br />
 {% if can_edit %}
