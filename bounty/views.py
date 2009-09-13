@@ -57,6 +57,20 @@ def view_project(request, project_id):
     return render_to_response('view_project.html', RequestContext(
         request, page_dict))
 
+def edit_project(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    if project.creator != request.user and not request.user.has_perm('contribution.can_change_contribution'):
+        return HttpResponse('not permitted', status='403 forbidden')
+
+    if request.POST:
+        form = ProjectForm(instance=project, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(form.instance.get_absolute_url())
+    else:
+        form = ProjectForm(instance=project)
+    return render_to_response('project_form.html', RequestContext(request, {'form': form}))
+
 def change_project_status(request, project_id):
     if not request.POST:
         return HttpResponse("bad method", status='405 method not allowed')
