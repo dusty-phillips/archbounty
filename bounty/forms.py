@@ -14,7 +14,7 @@ class ProjectStatusForm(forms.ModelForm):
 class DonationForm(forms.ModelForm):
     class Meta:
         model = Donation
-        fields = ('amount', 'deadline')
+        fields = ('amount', 'expire_date')
 
 class ContributionForm(forms.ModelForm):
     class Meta:

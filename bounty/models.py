@@ -66,10 +66,10 @@ class DonationManager(models.Manager):
         return self.filter(status="unpaid")
 
     def current(self):
-        return self.filter(deadline__isnull=True) | self.filter(deadline__gt=datetime.date.today())
+        return self.filter(expire_date__isnull=True) | self.filter(expire_date__gt=datetime.date.today())
 
     def expired(self):
-        return self.filter(deadline__lte=datetime.date.today())
+        return self.filter(expire_date__lte=datetime.date.today())
 
 class Donation(models.Model):
     objects = DonationManager()
@@ -80,7 +80,7 @@ class Donation(models.Model):
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     status = models.CharField(max_length=6,
            choices=make_choice(("unpaid", "paid")), default="unpaid")
-    deadline = models.DateTimeField(null=True, blank=True, default=None)
+    expire_date = models.DateTimeField(null=True, blank=True, default=None)
 
     def __unicode__(self):
         return "$%s to %s" % (self.amount, self.project)

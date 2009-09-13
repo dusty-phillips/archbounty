@@ -28,3 +28,9 @@ body {
 .project_over {
     color: #b33;
 }
+#id_amount {
+    width: 14ex;
+}
+#id_expire_date {
+    width: 14ex;
+}

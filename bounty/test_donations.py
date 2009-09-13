@@ -10,7 +10,7 @@ def test_donation_expiry(client, project):
     assert "Expired Value" not in response.content
 
     donation2 = Donation.objects.create(user=project.creator,
-            project=project, status="paid", amount="2.00", deadline=datetime.date.today() - datetime.timedelta(1))
+            project=project, status="paid", amount="2.00", expire_date=datetime.date.today() - datetime.timedelta(1))
 
     assert project.current_value() == decimal.Decimal('5.00')
     response = client.get(project.get_absolute_url())
