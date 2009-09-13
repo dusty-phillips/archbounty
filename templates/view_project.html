@@ -32,6 +32,11 @@ Expired Value: ${{project.expired_value|floatformat:2}}
     <input type="submit" value="Donate" />
 </form>
 {% endif %}
+<script type="text/javascript">
+    $(document).ready(function() {
+            $('#id_deadline').datepicker({showOn: "button"});
+    });
+</script>
 </div>
 <br /><br />
 <h3>Contributions</h3>
