@@ -75,9 +75,8 @@ def donate(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     form = DonationForm(request.POST)
     if form.is_valid():
-        donation = Donation()
+        donation = form.save(commit=False)
         donation.user = request.user
-        donation.amount = form.cleaned_data['amount']
         donation.project = project
         donation.save()
         return render_to_response("donate.html", RequestContext(

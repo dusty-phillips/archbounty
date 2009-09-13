@@ -1,5 +1,5 @@
 from django import forms
-from bounty.models import Project, Contribution
+from bounty.models import Project, Contribution, Donation
 
 class ProjectForm(forms.ModelForm):
     class Meta:
@@ -11,8 +11,10 @@ class ProjectStatusForm(forms.ModelForm):
         model = Project
         fields = ('status',)
 
-class DonationForm(forms.Form):
-    amount = forms.DecimalField()
+class DonationForm(forms.ModelForm):
+    class Meta:
+        model = Donation
+        fields = ('amount', 'deadline')
 
 class ContributionForm(forms.ModelForm):
     class Meta:
