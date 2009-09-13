@@ -91,6 +91,7 @@ class Contribution(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     project = models.ForeignKey(Project, related_name='contributions')
     percentage = PercentageField()
+    waive_donations = models.BooleanField(default=False)
     description = models.TextField(help_text='<a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> syntax is supported.')
 
     def __unicode__(self):

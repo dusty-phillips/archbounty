@@ -19,4 +19,4 @@ class DonationForm(forms.ModelForm):
 class ContributionForm(forms.ModelForm):
     class Meta:
         model = Contribution
-        fields = ('percentage', 'description')
+        fields = ('percentage', 'description', 'waive_donations')
