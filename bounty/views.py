@@ -135,8 +135,6 @@ def contribution(request, project_id, contribution_id):
 def edit_contribution(request, project_id, contribution_id):
     project = get_object_or_404(Project, id=project_id)
     contribution = get_object_or_404(project.contributions, id=contribution_id)
-    print contribution.user, request.user
-    print request.user.has_perm('contribution.can_change_contribution')
     if contribution.user != request.user and not request.user.has_perm('contribution.can_change_contribution'):
         return HttpResponse('not permitted', status='403 forbidden')
 
