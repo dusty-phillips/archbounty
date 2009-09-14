@@ -8,7 +8,7 @@ def pytest_funcarg__contribution(request):
 
 def test_form():
     form = ContributionForm()
-    assert len(form.fields) == 2
+    assert len(form.fields) == 3
 
 def test_user_can_edit(client, contribution):
     assert client.login(username=contribution.user.username,
