@@ -1,7 +1,7 @@
 {% load comments %}
 <div class="comment">
-    {{comment.user}}
-    {{comment.comment}}
+    <strong>{{comment.user}}</strong>:
+    {{comment.comment|linebreaks}}
     {% get_comment_list for comment as comments %}
     {% with 'comment.html' as comment_include %}
         {% for comment in comments %}
