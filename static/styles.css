@@ -12,7 +12,7 @@ body {
     padding: 1ex;
 }
 .comment_form textarea {
-    height: 3em;
+    height: 7em;
     width: 40em;
 }
 .comment .comment_form {
