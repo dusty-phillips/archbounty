@@ -130,7 +130,7 @@ def comment_notification(sender, instance, signal, created, *args, **kwargs):
     while isinstance(parent_object, Comment):
         parent_object = parent_object.content_object
     if isinstance(parent_object, Project):
-        notifications = parent_object.notification_set.all()
+        notifications = parent_object.notification_set.filter(notify=True)
         to_addresses = [n.user.email for n in notifications]
         send_mail("Arch Bounty Project '%s' commented on" % parent_object.name,
                 "The '%s' project has had a new comment added at http://%s%s" % (parent_object.name, Site.objects.get_current().domain, instance.get_absolute_url()), 'bounty@archlinux.ca', to_addresses)

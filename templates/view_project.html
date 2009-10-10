@@ -41,6 +41,13 @@ Expired Value: ${{project.expired_value|floatformat:2}}
             $('#id_expire_date').datepicker({showOn: "button"});
     });
 </script>
+{% if wants_notification %}
+<br /><a href="/projects/{{project.id}}/cancel_notification/">Cancel update notifications on this project</a>
+{% else %}
+{% if user.is_authenticated %}
+<br /><a href="/projects/{{project.id}}/enable_notification/">E-mail me when this project is updated or commented on</a>
+{% endif %}
+{% endif %}
 </div>
 <br /><br />
 <h3>Contributions</h3>

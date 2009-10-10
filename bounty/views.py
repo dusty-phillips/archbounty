@@ -5,7 +5,8 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from bounty.forms import (ProjectForm, ProjectStatusForm, DonationForm,
         ContributionForm)
-from bounty.models import Project, Donation, Contribution
+from bounty.models import Project, Donation, Contribution, Notification
+from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 
 def index(request):
@@ -54,6 +55,12 @@ def view_project(request, project_id):
         page_dict['can_change_project'] = True
     if request.user.is_authenticated() and project.status=="accepted":
         page_dict['donation_form'] = DonationForm()
+    if request.user.is_authenticated():
+        try:
+            page_dict['wants_notification'] = Notification.objects.get(user=request.user, project = project).notify
+        except ObjectDoesNotExist:
+            page_dict['wants_notification'] = False
+
     return render_to_response('view_project.html', RequestContext(
         request, page_dict))
 
@@ -101,6 +108,22 @@ def donate(request, project_id):
     else:
         return render_to_response("form.html", RequestContext(
             request, {'form': form}))
+
+@login_required
+def cancel_notification(request, project_id):
+    return _change_notify(request, project_id, False)
+
+@login_required
+def enable_notification(request, project_id):
+    return _change_notify(request, project_id, True)
+
+def _change_notify(request, project_id, notify):
+    project = get_object_or_404(Project, id=project_id)
+    notification, created = Notification.objects.get_or_create(
+            project=project, user=request.user)
+    notification.notify=notify
+    notification.save()
+    return redirect(project.get_absolute_url())
 
 def donation_notify(request): 
     if not request.POST:
