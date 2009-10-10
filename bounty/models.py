@@ -1,6 +1,12 @@
 import datetime
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.comments.models import Comment
+from django.contrib.sites.models import Site
+from django.conf import settings
+from django.db.models.signals import post_save
+
+from django.core.mail import send_mail
 
 class PercentageField(models.IntegerField):
     def formfield(self, **kwargs):
@@ -99,3 +105,33 @@ class Contribution(models.Model):
 
     def get_absolute_url(self):
         return "%scontributions/%d/" % (self.project.get_absolute_url(), self.id)
+
+class Notification(models.Model):
+    user = models.ForeignKey(User)
+    project = models.ForeignKey(Project)
+    notify = models.BooleanField(default=False)
+
+
+def project_notification(sender, instance, signal, created, *args, **kwargs):
+    '''when a project is updated or comment is added, send notification e-mails
+    to interested users.'''
+    if created:
+        send_mail("Arch Bounty - New Project Created: %s" % instance.name, "New Project was created", 'bounty@archlinux.ca', [i[1] for i in settings.ADMINS])
+    else:
+        notifications = instance.notification_set.all()
+        to_addresses = [n.user.email for n in notifications]
+        send_mail("Arch Bounty Project '%s' updated" % instance.name,
+                "The '%s' project at http://%s%s has been updated." % (instance.name, Site.objects.get_current().domain, instance.get_absolute_url()), 'bounty@archlinux.ca', to_addresses)
+
+post_save.connect(project_notification, sender = Project)
+
+def comment_notification(sender, instance, signal, created, *args, **kwargs):
+    parent_object = instance.content_object
+    while isinstance(parent_object, Comment):
+        parent_object = parent_object.content_object
+    if isinstance(parent_object, Project):
+        notifications = parent_object.notification_set.all()
+        to_addresses = [n.user.email for n in notifications]
+        send_mail("Arch Bounty Project '%s' commented on" % parent_object.name,
+                "The '%s' project has had a new comment added at http://%s%s" % (parent_object.name, Site.objects.get_current().domain, instance.get_absolute_url()), 'bounty@archlinux.ca', to_addresses)
+post_save.connect(comment_notification, sender = Comment)
