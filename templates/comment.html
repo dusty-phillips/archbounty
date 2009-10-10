@@ -1,6 +1,6 @@
 {% load comments %}
 <div class="comment">
-    <strong>{{comment.user}}</strong>:
+    <em>{{comment.submit_date|date}} </em><strong>{{comment.user}}</strong>:
     {{comment.comment|linebreaks}}
     {% get_comment_list for comment as comments %}
     {% with 'comment.html' as comment_include %}

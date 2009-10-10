@@ -8,8 +8,8 @@
 {% if can_change_project %}
 <a href="/projects/{{project.id}}/edit/">Edit Project</a><br />
 {% endif %}
-Created by {{project.creator}}<br />
-{{project.description|markdown:"safe"}}
+Created by {{project.creator}} on {{project.modified|date}}<br />
+{{project.description|markdown:"safe"}} 
 <br>
 {% if perms.project.can_change_status %}
 <form id="status_form" method='POST' action="/projects/{{project.id}}/change_status/">
